@@ -1,6 +1,4 @@
 const config = require('config.json');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 const db = require('_helpers/db');
 const Movie = db.Movie;
 
@@ -14,40 +12,30 @@ module.exports = {
 
 async function create(movieParam) {
     // validate
-    const movie = new User(movieParam);
+    const movie = new Movie(movieParam);
     // save user
     await movie.save();
 }
 
 async function getAll() {
-    return await User.find().select('-hash');
+    return await Movie.find();
 }
 
 async function getById(id) {
-    return await User.findById(id).select('-hash');
+    return await Movie.findById(id);
 }
 
-
-async function update(id, userParam) {
-    const user = await User.findById(id);
-
+async function update(id, movieParam) {
+    const movie = await Movie.findById(id);
     // validate
-    if (!user) throw 'User not found';
-    if (user.username !== userParam.username && await User.findOne({ username: userParam.username })) {
-        throw 'Username "' + userParam.username + '" is already taken';
-    }
-
+    if (!movie) throw 'Movie not found';
     // hash password if it was entered
-    if (userParam.password) {
-        userParam.hash = bcrypt.hashSync(userParam.password, 10);
-    }
-
     // copy userParam properties to user
-    Object.assign(user, userParam);
+    Object.assign(movie, movieParam);
 
-    await user.save();
+    await movie.save();
 }
 
 async function _delete(id) {
-    await User.findByIdAndRemove(id);
+    await Movie.findByIdAndRemove(id);
 }

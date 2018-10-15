@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
-import AllMovies from './AllMovies';
-import Home from "./Home";
-import Header from './Header';
+import AllMovies from '../AllMovies';
+import Home from "../Home/index";
+import Header from '../Header';
+import Movie from '../Movie';
 import { connect } from "react-redux";
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { RegisterPage } from "./authentication/RegisterPage";
-import { LoginPage } from "./authentication/LoginPage";
+import { Route, Switch } from 'react-router-dom'
+import { RegisterPage } from "../authentication/RegisterPage/index";
+import { LoginPage } from "../authentication/LoginPage/index";
+import NotFoundComponent from "../NotFoundComponent";
 
 function UserContainer(authentication) {
     return (
@@ -13,9 +15,11 @@ function UserContainer(authentication) {
             <Header />
             <Switch>
                 <Route exact path="/" component={Home}/>
-                <Route path="/movies" component={AllMovies} />
+                <Route exact path="/movies" component={AllMovies} />
+                <Route path="/movies/:id" component={Movie} />
                 <Route path="/login" component={LoginPage} />
                 <Route path="/register" component={RegisterPage} />
+                <Route component={NotFoundComponent} />
             </Switch>
         </div>
 

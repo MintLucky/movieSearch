@@ -1,39 +1,30 @@
-import Banner from './Banner';
 import React from 'react';
 import { connect } from 'react-redux';
-// import {
-//     HOME_PAGE_LOADED,
-//     HOME_PAGE_UNLOADED,
-//     APPLY_TAG_FILTER
-// } from '../../constants/movie';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = state => ({
     ...state.home
 });
 
-const mapDispatchToProps = dispatch => ({
-    // onClickTag: (tag, pager, payload) =>
-    //     dispatch({ type: APPLY_TAG_FILTER, tag, pager, payload }),
-    // onLoad: (tab, pager, payload) =>
-    //     dispatch({ type: HOME_PAGE_LOADED, tab, pager, payload }),
-    // onUnload: () =>
-    //     dispatch({  type: HOME_PAGE_UNLOADED })
-});
-
-class Home extends React.Component {
-    componentWillMount() {
-
-    }
-
-    componentWillUnmount() {
-
-    }
-
+class AdminHome extends React.Component {
     render() {
         return (
             <div className="home-page">
-                <Banner />
                 <div className="container page">
+                    <ul className="nav navbar-nav pull-xs-right">
+                        <li className="nav-item">
+                            <Link to="/admin/movies" className="nav-link">
+                                Edit Movies
+                            </Link>
+                        </li>
+
+                        <li className="nav-item">
+                            <Link to="/admin/something-else" className="nav-link">
+                                Edit Something Else
+                            </Link>
+                        </li>
+
+                    </ul>
 
                 </div>
             </div>
@@ -41,4 +32,4 @@ class Home extends React.Component {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps)(AdminHome);

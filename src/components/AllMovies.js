@@ -1,16 +1,26 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import Post from './Post';
-import EditComponent from './EditComponent';
-class AllPost extends Component {
+import MovieTeaser from './MovieTeaser';
+import { movieActions } from "../actions";
+
+const mapDispatchToProps = dispatch => ({
+    loadAllMovies: () =>
+        dispatch(movieActions.getAll())
+});
+
+class AllMovies extends Component {
+
+    componentDidMount() {
+        this.props.loadAllMovies();
+    }
+
     render() {
         return (
             <div>
                 <h1 className="post_heading">All Movies</h1>
-                {this.props.movies.map((movie) => (
+                {this.props.movies.items.map((movie) => (
                     <div key={movie.id}>
-                        {movie.editing ? <EditComponent post={movie} key={movie.id} /> : <Post post={movie}
-                                                                                            key={movie.id} />}
+                        <MovieTeaser movie={movie} key={movie.id} />
                     </div>
                 ))}
             </div>
@@ -24,4 +34,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps)(AllPost);
+export default connect(mapStateToProps, mapDispatchToProps)(AllMovies);

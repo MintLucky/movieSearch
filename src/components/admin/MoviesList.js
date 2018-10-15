@@ -1,32 +1,57 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { movieActions } from "../../actions";
+
 import { Link } from 'react-router-dom';
 
-class Header extends React.Component {
+const mapDispatchToProps = dispatch => ({
+    loadAllMovies: () =>
+        dispatch(movieActions.getAll()),
+    deleteMovie: (id) => {
+        dispatch(movieActions.delete(id))
+    }
+});
+
+class MoviesList extends Component {
+
+    componentDidMount() {
+        this.props.loadAllMovies();
+    }
+
     render() {
         return (
-            <nav className="navbar navbar-light">
-                <div className="container">
-
-                    <div>Welcome to Admin Part! </div>
-                    <ul className="nav navbar-nav pull-xs-right">
-
-                        <li className="nav-item">
-                            <Link to="/" className="nav-link">
-                                Go to site
-                            </Link>
-                        </li>
-
-                        <li className="nav-item">
-                            <Link to="logout" className="nav-link">
-                                Logout
-                            </Link>
-                        </li>
-
-                    </ul>
+            <div>
+                <div>
+                    <Link to="/admin/movies/create" className="nav-link">
+                        Create New One Movie
+                    </Link>
                 </div>
-            </nav>
+                <h1 className="post_heading">All Movies</h1>
+                <ul>
+                    {this.props.movies.map((movie) => (
+                        <li key={movie.id}>
+                            <div>
+                                {movie.title}
+                                <button>
+                                    <Link to={{pathname: '/admin/movies/edit/'+movie.id}} className="nav-link">
+                                        Edit Movie
+                                    </Link>
+                                </button>
+                                <button onClick={()=>this.props.deleteMovie(movie.id)}>Delete Movie</button>
+                            </div>
+
+                        </li>
+                    ))}
+                </ul>
+            </div>
         );
     }
 }
 
-export default Header;
+const mapStateToProps = (state) => {
+    return {
+        movies: state.movies.items
+    }
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MoviesList);

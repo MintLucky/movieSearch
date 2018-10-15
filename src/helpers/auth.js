@@ -2,13 +2,13 @@ import locationHelperBuilder from 'redux-auth-wrapper/history4/locationHelper'
 import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect'
 import connectedAuthWrapper from 'redux-auth-wrapper/connectedAuthWrapper'
 
-import Loading from './components/Loading'
+import Loading from '../components/Loading'
 
 const locationHelper = locationHelperBuilder({})
 
 const userIsAuthenticatedDefaults = {
-    authenticatedSelector: state => state.user.data !== null,
-    authenticatingSelector: state => state.user.isLoading,
+    authenticatedSelector: state => state.authentication !== null,
+    authenticatingSelector: state => state.authentication.loggingIn,
     wrapperDisplayName: 'UserIsAuthenticated'
 }
 
@@ -21,10 +21,15 @@ export const userIsAuthenticatedRedir = connectedRouterRedirect({
 })
 
 export const userIsAdminRedir = connectedRouterRedirect({
-    redirectPath: '/',
+    redirectPath: '/login',
     allowRedirectBack: false,
-    authenticatedSelector: state => state.user.data !== null && state.user.data.isAdmin,
-    predicate: user => user.isAdmin,
+    authenticatedSelector: state => {
+        if(state.authentication.user) {
+            return state.authentication.user.isAdmin === 'true'
+        }
+        return false;
+    },
+    // predicate: authentication => authentication.user.isAdmin,
     wrapperDisplayName: 'UserIsAdmin'
 })
 

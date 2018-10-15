@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import {movieActions} from "../../actions/index";
-class MovieForm extends Component {
+class CreateMovieForm extends Component {
     constructor(props) {
         super(props);
 
@@ -53,15 +53,23 @@ class MovieForm extends Component {
             <div className="post-container">
                 <h1 className="post_heading">Create Movie Post</h1>
                 <form className="form" onSubmit={this.handleSubmit} >
-                    <input required type="text" className="form-control" name="title" value={movie.title}
-                           onChange={this.handleChange} placeholder="Enter Movie Title" /> <br /><br />
-                    <textarea required rows="5" name="description" onChange={this.handleChange}
-                              cols="28" placeholder="Enter Movie Description" /><br /><br />
-                    <div className="help-block">Description is required</div>
+                    <input required type="text"
+                           className="form-control"
+                           name="title"
+                           value={movie.title}
+                           onChange={this.handleChange}
+                           placeholder="Enter Movie Title" />
+                    <br /><br />
+                    <textarea required rows="5"
+                              name="description"
+                              onChange={this.handleChange}
+                              cols="28"
+                              placeholder="Enter Movie Description" />
+                    <br /><br />
                     <button>Create</button>
                 </form>
             </div>
         );
     }
 }
-export default connect()(MovieForm);
+export default connect()(CreateMovieForm);

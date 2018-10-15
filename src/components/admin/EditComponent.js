@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { movieConstants } from '../constants/movie';
+import { movieConstants } from '../../constants/movie/index';
 
 class EditComponent extends Component {
     handleEdit = (e) => {

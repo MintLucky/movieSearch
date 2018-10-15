@@ -1,19 +1,29 @@
 import React, { Component } from 'react';
-import PostForm from './PostForm';
-import AllPost from './components/AllPost';
+import AdminContainer from './containers/AdminContainer';
+import  UserContainer  from "./containers/UserContainer";
+import { connect } from "react-redux";
+import { Router, Route, Switch } from 'react-router-dom';
+import { history } from "./../helpers";
 
 
-class App extends Component {
-    render() {
-        return (
-            <div className="App">
-                <div className="navbar">
-                    <h2 className="center ">Post It</h2>
-                </div>
-                <PostForm />
-                <AllPost />
-            </div>
-        );
-    }
+import { userIsAuthenticatedRedir, userIsNotAuthenticatedRedir, userIsAdminRedir,
+    userIsAuthenticated, userIsNotAuthenticated } from '../helpers/auth'
+
+const Admin = userIsAuthenticatedRedir(userIsAdminRedir(AdminContainer));
+
+function App(authentication) {
+    return (
+        <Router history={history}>
+            <Switch>
+                <Route path="/admin" component={Admin}/>
+                <Route component={UserContainer} />
+            </Switch>
+        </Router>
+    );
 }
-export default App;
+
+const mapStateToProps = (state) => ({
+    authentication: state.authentication
+});
+
+export default connect(mapStateToProps)(App);

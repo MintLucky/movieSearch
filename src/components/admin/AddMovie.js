@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import MovieForm from './MovieForm';
+import CreateMovieForm from './CreateMovieForm';
 
 class AddMovie extends Component {
     render() {
@@ -8,7 +8,7 @@ class AddMovie extends Component {
                 <div className="navbar">
                     <h2 className="center ">Post It</h2>
                 </div>
-                <MovieForm />
+                <CreateMovieForm />
             </div>
         );
     }

@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { movieConstants } from '../../constants/movie/index';
 import { Link } from 'react-router-dom';
 
 
-class Post extends Component {
+class MovieTeaser extends Component {
     render() {
         return (
             <div className="post">
@@ -23,4 +22,4 @@ class Post extends Component {
         );
     }
 }
-export default connect()(Post);
+export default connect()(MovieTeaser);
