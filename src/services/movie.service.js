@@ -17,7 +17,7 @@ function create(movie) {
         body: JSON.stringify(movie),
     };
 
-    return fetch(`${config.apiUrl}/admin/movies/create`, requestOptions)
+    return fetch(`${config.apiUrl}/movies/create`, requestOptions)
         .then(handleResponse);
 }
 
@@ -46,7 +46,7 @@ function update(movie) {
         body: JSON.stringify(movie)
     };
 
-    return fetch(`${config.apiUrl}/admin/movies/${movie.id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/movies/${movie.id}`, requestOptions).then(handleResponse);
 }
 
 // prefixed function name with underscore because delete is a reserved word in javascript
@@ -56,7 +56,7 @@ function _delete(id) {
         headers: authHeader()
     };
 
-    return fetch(`${config.apiUrl}/admin/movies/${id}`, requestOptions).then(handleResponse);
+    return fetch(`${config.apiUrl}/movies/${id}`, requestOptions).then(handleResponse);
 }
 
 function handleResponse(response) {

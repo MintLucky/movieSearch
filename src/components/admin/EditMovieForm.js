@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import {movieActions} from "../../actions";
+import { movieActions } from "../../actions";
 
 const mapDispatchToProps = dispatch => ({
     loadMovieById: (id) =>
@@ -10,10 +10,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 class EditMovieForm extends Component {
-
-    componentDidMount() {
-        this.props.loadMovieById(this.props.match.params.id);
-    }
 
     constructor(props) {
         super(props);
@@ -26,9 +22,21 @@ class EditMovieForm extends Component {
             submitted: false
         };
 
+        this.props.loadMovieById(this.props.match.params.id);
+
+        this.inputRef = React.createRef();
+        this.descriptionTextAreaRef = React.createRef();
 
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if(prevProps.movie !== this.props.movie) {
+            this.setState({
+                movie: this.props.movie
+            });
+        }
     }
 
     handleChange(event) {
@@ -45,17 +53,19 @@ class EditMovieForm extends Component {
     handleSubmit(event) {
         event.preventDefault();
         this.setState({ submitted: true });
-        const { movie } = this.state;
         const { dispatch } = this.props;
+
+        const nameValue = this.inputRef.current.value;
+        const descriptionValue = this.descriptionTextAreaRef.current.value;
 
         const data = {
             id: this.props.match.params.id,
             updateTime : new Date(),
-            title: movie.title,
-            description: movie.description
+            title: nameValue,
+            description: descriptionValue
         };
 
-        if (movie.title && movie.description) {
+        if (data.title && data.description) {
             this.props.updateMovie(data);
         }
     };
@@ -68,16 +78,16 @@ class EditMovieForm extends Component {
                     <input required type="text"
                            className="form-control"
                            name="title"
-                           defaultValue={this.props.movie.title}
-                           value={this.state.movie.title}
-                           onChange={this.handleChange}
-                           placeholder="Enter Movie Title" />
+                           defaultValue={this.state.movie.title}
+                           placeholder="Enter Movie Title"
+                           ref={this.inputRef} />
                     <br /><br />
-                    <textarea required rows="5" name="description"
-                              onChange={this.handleChange}
-                              defaultValue={this.props.movie.title}
-                              cols="28" value={this.state.movie.description}
-                              placeholder="Enter Movie Description" />
+                    <textarea required rows="5"
+                              name="description"
+                              defaultValue={this.state.movie.description}
+                              cols="28"
+                              placeholder="Enter Movie Description"
+                              ref={this.descriptionTextAreaRef} />
                     <br /><br />
                     <button>Create</button>
                 </form>

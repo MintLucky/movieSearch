@@ -21,7 +21,7 @@ app.use('/users', require('./users/users.controller'));
 
 
 // api routes
-app.use('/admin/movies', require('./movies/admin.movies.controller'));
+app.use('/movies', require('./movies/admin.movies.controller'));
 
 // global error handler
 app.use(errorHandler);
